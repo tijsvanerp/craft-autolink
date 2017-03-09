@@ -15,5 +15,9 @@
     "require-dev": {
         "corneltek/phprelease": "^1.3"
     },
+<<<<<<< HEAD
     "version": "1.0.2"
+=======
+    "version": "1.0.1"
+>>>>>>> 4130ad9cd4fbe072c5278da2e90e71dd957be4ba
 }
