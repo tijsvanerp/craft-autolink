@@ -35,6 +35,12 @@ It is possible to append extra classes to the `<a>` tag by using:
     {{ autoLink(entry.body, {class: "c-link--auto-link"}) }}
 ```
 
+## Available options:
+| Option | Description                                  |
+|--------|----------------------------------------------|
+| limit  | Limits the amount of handled auto links      |
+| class  | Appends extra classes to the class attribute |
+
 The function implementation can be used to have more predictable results when using multiple filters or dynamic variables.
 When using lots of Auto links it is recommended to use `{% cache %}` in Twig to cache the results.
 
