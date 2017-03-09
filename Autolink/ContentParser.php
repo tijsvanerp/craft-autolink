@@ -50,7 +50,6 @@ class ContentParser
     {
         $this->handleReplacements();
         $doc = $this->dom->saveXML($this->dom->documentElement);
-
         return TemplateHelper::getRaw($this->getContentOfRootElement($doc));
     }
 
@@ -61,20 +60,27 @@ class ContentParser
      */
     protected function replace(AutoLinkModel $autoLinkModel)
     {
-        if(!$autoLinkModel->getUrl()) {
+        if(!$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed()) {
             return;
         }
-
         $nodes = $this->getXPath()->query($this->createQueryExpression($autoLinkModel->getNeedle()));
-
+        $hasMatch = false;
         foreach ($nodes as $node) {
             /** @var \DOMText $node */
             while (preg_match_all($autoLinkModel->getExpression(), $node->nodeValue, $matches)) {
+                $hasMatch = true;
                 $node = $this->injectAutoLinksIntoDom($autoLinkModel, $matches[0][0], $node);
             }
         }
+        if($hasMatch) {
+            $this->parsedAutoLinks++;
+        }
     }
 
+
+    private function maxAutolinksHaveBeenProcessed() {
+        return (!empty($this->options['limit']) && $this->options['limit'] == $this->parsedAutoLinks);
+    }
     /**
      * Generate the query expression for querying the dom.
      * The in the settings excluded tags are ignored here
