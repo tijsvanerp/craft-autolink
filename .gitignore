@@ -21,3 +21,4 @@ jspm_packages
 composer.phar
 /vendor/
 phprelease.ini
+.idea
