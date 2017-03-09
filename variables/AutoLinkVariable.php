@@ -18,7 +18,7 @@ class AutoLinkVariable
 
     public function getTags()
     {
-        $tags = explode(" ", "a abbr address area article aside b blockquote caption cite code dd del dfn div dl dt em fieldset figcaption footer form h1 h2 h3 h4 h5 h6 header i ins kbd label legend li main nav noscript p pre s samp section small span strong sub sup td template th");
+        $tags = explode(" ", "abbr address area article aside b blockquote caption cite code dd del dfn div dl dt em fieldset figcaption footer form h1 h2 h3 h4 h5 h6 header i ins kbd label legend li main nav noscript p pre s samp section small span strong sub sup td template th");
         foreach ($tags as $tag) {
             yield $tag => $tag;
         }

@@ -1,25 +1,49 @@
 <?php
 
 namespace Craft;
-
 use DOMDocument;
 use DOMXPath;
-use SimpleXMLElement;
+use Twig_Markup;
 
+/**
+ * Class ContentParser
+ * @package Craft
+ */
 class ContentParser
 {
+    /**
+     * @var DOMDocument
+     */
     protected $dom;
-    protected $replacements = [];
 
-    public function __construct(string $html, $replacements = [])
+    /** @var AutoLinkModel[] */
+    protected $replacements = [];
+    /**
+     * @var array
+     */
+    private $options;
+
+    /**
+     * ContentParser constructor.
+     *
+     * @param string $html
+     * @param array  $replacements
+     * @param array  $options
+     */
+    public function __construct(string $html, $replacements = [], $options = [])
     {
         /** @var DOMDocument dom */
         $this->dom = new DOMDocument;
         $this->dom->loadXml("<root>$html</root>");
+        $this->options = $options;
 
         $this->setReplacements($replacements);
     }
 
+    /**
+     * Handle the replacements and return the twig string
+     * @return Twig_Markup
+     */
     public function parse()
     {
         $this->handleReplacements();
@@ -28,31 +52,34 @@ class ContentParser
         return TemplateHelper::getRaw($this->getContentOfRootElement($doc));
     }
 
-    protected function replace($find, $replace)
+
+    /**
+     * inject the links into the dom model
+     * @param AutoLinkModel $autoLinkModel
+     */
+    protected function replace(AutoLinkModel $autoLinkModel)
     {
-        $find = strtolower($find);
-        $nodes = $this->getXPath()->query($this->createQueryExpression($find));
-
-        foreach ($nodes as $node) {
-            /** @var \DOMText $node */
-            while (preg_match("/\b$find\b/i", $node->nodeValue)) {
-                /** @var \DOMNode $node */
-                $word = $node->splitText(stripos($node->nodeValue, $find));
-                $after = $word->splitText(strlen($find));
-
-                $link = $this->dom->createElement('a');
-                $link->setAttribute('href', $replace);
-
-                $word->parentNode->replaceChild($link, $word);
-                $link->appendChild($word);
-
-                $node = $after;
-            }
+        if(!$autoLinkModel->getUrl()) {
+            return;
         }
 
+        $nodes = $this->getXPath()->query($this->createQueryExpression($autoLinkModel->getNeedle()));
+        foreach ($nodes as $node) {
+            /** @var \DOMText $node */
+            while (preg_match_all($autoLinkModel->getExpression(), $node->nodeValue, $matches)) {
+                $node = $this->injectAutoLinksIntoDom($autoLinkModel, $matches[0][0], $node);
+            }
+        }
     }
 
-    protected function createQueryExpression($find) {
+    /**
+     * Generate the query expression for querying the dom.
+     * The in the settings excluded tags are ignored here
+     * @param string $needle
+     *
+     * @return string
+     */
+    protected function createQueryExpression($needle) {
 
         $allowedTags = craft()->autoLink->allowedTags();
 
@@ -60,23 +87,36 @@ class ContentParser
             return "ancestor::$tag";
         },$allowedTags);
 
-//       return  "//*[contains(text(), '$find')][".implode(" and ", $not) . "]";
-       return  "//text()[contains(php:functionString('strtolower', .), '$find')][".implode(" or ", $include) . "]";
+       return  "//text()[contains(php:functionString('strtolower', .), '$needle')][".implode(" or ", $include) . "]";
     }
 
+    /**
+     * strip the root element from the output string. This element is required to make the HTML DomDocument compatible.
+     * @param string $doc
+     *
+     * @return mixed
+     */
     protected function getContentOfRootElement($doc)
     {
         preg_match('#<(root)>(.+?)</\1>#is', $doc, $matches);
         return $matches[0];
     }
 
+    /**
+     * go throught the AutoLinkModels and execute the replacements
+     */
     protected function handleReplacements()
     {
-        foreach ($this->replacements as $find => $url) {
-            $this->replace($find, $url);
+        foreach ($this->replacements as $replacement) {
+            $this->replace($replacement);
         }
     }
 
+
+    /**
+     * Get the Xpath to query the DOM and bind the PHP functions to perform lowercase matching.
+     * @return DOMXPath
+     */
     public function getXPath()
     {
         $xPath = new DOMXPath($this->dom);
@@ -86,18 +126,60 @@ class ContentParser
         return $xPath;
     }
 
-    public function addReplacements(array $replacements)
-    {
-        $this->replacements = array_merge($this->replacements, $replacements);
-    }
 
-    public function setReplacements(array $replacements)
+    /**
+     * Assign the replacements
+     * @param ElementCriteriaModel $replacements
+     */
+    public function setReplacements(ElementCriteriaModel $replacements)
     {
         $this->replacements = $replacements;
     }
 
-    public function clearReplacements()
+    /**
+     * @param AutoLinkModel $replacement
+     *
+     * @return mixed|string
+     */
+    private function getAutoLinkClassName(AutoLinkModel $replacement)
     {
-        $this->replacements = [];
+        return !empty($this->options['class']) ? $replacement->getClassList() . " " . $this->options['class'] : $replacement->getClassList();
+    }
+
+    /**
+     * @param AutoLinkModel $autoLinkModel
+     * @param               $match
+     * @param               $node
+     *
+     * @return \DOMNode
+     * @internal param $matches
+     */
+    protected function injectAutoLinksIntoDom(AutoLinkModel $autoLinkModel, $match, $node)
+    {
+        /** @var \DOMNode $node */
+        if ($autoLinkModel->isCaseSensitive()) {
+            $word = $node->splitText(stripos($node->nodeValue, $match));
+        } else {
+            $word = $node->splitText(strpos($node->nodeValue, $match));
+        }
+        $newNode = $word->splitText(strlen($match));
+
+        $link = $this->dom->createElement('a');
+        $link->setAttribute('href', $autoLinkModel->getUrl());
+        $link->setAttribute('title', $autoLinkModel->getTitle());
+
+        if ($autoLinkModel->openInBlankwindow()) {
+            $link->setAttribute("target", "_blank");
+        }
+
+        $classes = $this->getAutoLinkClassName($autoLinkModel);
+
+        if (strlen($classes) > 0) {
+            $link->setAttribute('class', $classes);
+        }
+
+        $word->parentNode->replaceChild($link, $word);
+        $link->appendChild($word);
+        return $newNode;
     }
 }

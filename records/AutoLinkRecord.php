@@ -39,20 +39,19 @@ class AutoLinkRecord extends BaseRecord
      */
     public function defineRelations()
     {
-        return array();
+        return [];
     }
 
     public static function autoLinkAttributes()
     {
         return [
-//            'title' => [AttributeType::String, 'default' => '', 'required' => true],
             'keyphrase' => [AttributeType::String, 'default' => '', 'required' => true],
             'locale' => [AttributeType::String, 'default' => null, 'required' => true],
             'entryId' => [AttributeType::Number, 'default' => null],
             'useCustomUrl' => [AttributeType::Bool, 'default' => false],
             'customUrl' => [AttributeType::String, 'default' => null],
             'caseSensitive' => [AttributeType::Bool, 'default' => false],
-            'matchWholeWordOnly' => [AttributeType::Bool, 'default' => true],
+            'expandMatchToWholeWord' => [AttributeType::Bool, 'default' => true],
             'priority' => [AttributeType::Number, 'default' => 0],
             'blank' => [AttributeType::Bool, 'default' => false],
             'class' => [AttributeType::String, 'default' => null],

@@ -88,8 +88,6 @@ class AutoLinkElementType extends BaseElementType
             '*' => [
                 'label' => Craft::t('Auto links'),
                 'structureEditable' => true,
-                'defaultSort' => array('priority', 'asc'),
-//                'structureId' => $section->structureId
                 ]
         ];
 
@@ -164,22 +162,6 @@ class AutoLinkElementType extends BaseElementType
     }
 
     /**
-     * Defines any custom element criteria attributes for this element type.
-     * @return array
-     */
-//    public function defineCriteriaAttributes()
-//    {
-//        return [
-//            'locale' => [AttributeType::Locale, 'default' => 'en'],
-//            'status' => [AttributeType::String, 'default' => BaseElementModel::ENABLED],
-//            'title' => [AttributeType::String, 'default' => '', 'required' => true],
-//            'keyphrase' => [AttributeType::String, 'default' => '', 'required' => true]
-//        ];
-////        return AutoLinkRecord::autoLinkAttributes();
-//
-//    }
-
-    /**
      * Modifies an element query targeting elements of this type.
      *
      * @param DbCommand            $query
@@ -194,10 +176,7 @@ class AutoLinkElementType extends BaseElementType
             ->join('autolink autolink', 'autolink.id = elements.id')
             ->andWhere(DbHelper::parseParam('autolink.locale', $criteria->locale, $query->params));
     }
-    public function onAfterMoveElementInStructure(BaseElementModel $element, $structureId)
-    {
 
-    }
     /**
      * Populates an element model based on a query result.
      *

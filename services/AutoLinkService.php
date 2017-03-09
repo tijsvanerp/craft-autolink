@@ -37,24 +37,26 @@ class AutoLinkService extends BaseApplicationComponent
      */
     public function getReplacements()
     {
-        return [
-            'contact' => "/contact",
-            'Radiaalpomp' => "/radiaal",
-            'koudwater hogedrukreiniger' => '/koudwater-hogedrukreinigers',
-            'HogedrukReiniger' => '/hogedrukreinigers',
-        ];
+
+        /** @var \Craft\ElementCriteriaModel $criteria */
+        $criteria = $this->getCriteria();
+        $criteria->locale = craft()->locale->id;
+        $criteria->order = ["priority desc"];
+        $criteria->limit = 1000;
+
+        return $criteria;
     }
 
     /**
-     * @param $html
-     * @param $replacements
+     * @param  string $html
+     * @param  AutoLinkModel[] $replacements
+     * @param array $options
      *
      * @return \Twig_Markup
      */
-    public function parse($html, $replacements)
+    public function parse($html, $replacements, $options = [])
     {
-        $parser = new ContentParser($html, $replacements);
-
+        $parser = new ContentParser($html, $replacements, $options);
         return $parser->parse();
     }
 
@@ -119,7 +121,7 @@ class AutoLinkService extends BaseApplicationComponent
         $autoLinkModel->useCustomUrl = (bool) craft()->request->getPost('useCustomUrl', $autoLinkModel->useCustomUrl);
         $autoLinkModel->customUrl = craft()->request->getPost('customUrl', $autoLinkModel->customUrl);
         $autoLinkModel->caseSensitive = craft()->request->getPost('caseSensitive', $autoLinkModel->caseSensitive);
-        $autoLinkModel->matchWholeWordOnly = craft()->request->getPost('caseSensitive', $autoLinkModel->matchWholeWordOnly);
+        $autoLinkModel->expandMatchToWholeWord = craft()->request->getPost('expandMatchToWholeWord', $autoLinkModel->expandMatchToWholeWord);
 
         return $autoLinkModel;
     }
@@ -166,7 +168,7 @@ class AutoLinkService extends BaseApplicationComponent
         $autoLinkRecord->customUrl = $autoLinkModel->customUrl;
         $autoLinkRecord->entryId = $autoLinkModel->entryId;
         $autoLinkRecord->caseSensitive = $autoLinkModel->caseSensitive;
-        $autoLinkRecord->matchWholeWordOnly = $autoLinkModel->matchWholeWordOnly;
+        $autoLinkRecord->expandMatchToWholeWord = $autoLinkModel->expandMatchToWholeWord;
 
         $autoLinkRecord->validate();
         $autoLinkModel->addErrors($autoLinkRecord->getErrors());
@@ -202,9 +204,6 @@ class AutoLinkService extends BaseApplicationComponent
                     return true;
                 }
 
-
-                Craft::dd($autoLinkModel->getErrors());
-
             } catch (Exception $e) {
                 if ($transaction !== null) {
                     $transaction->rollback();
@@ -232,7 +231,7 @@ class AutoLinkService extends BaseApplicationComponent
      */
     public function getCriteria(array $attributes = array())
     {
-        return craft()->elements->getCriteria(AutoLinkModel::class, $attributes);
+        return craft()->elements->getCriteria('AutoLink', $attributes);
     }
 
     /**

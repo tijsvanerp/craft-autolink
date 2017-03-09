@@ -13,6 +13,10 @@
 
 namespace Craft;
 
+/**
+ * Class AutoLinkController
+ * @package Craft
+ */
 class AutoLinkController extends BaseController
 {
 
@@ -20,14 +24,11 @@ class AutoLinkController extends BaseController
      * @var    bool|array Allows anonymous access to this controller's actions.
      * @access protected
      */
-    protected $allowAnonymous = array('actionIndex');
+    protected $allowAnonymous = [];
 
     /**
+     * @param array $variables
      */
-    public function actionIndex()
-    {
-    }
-
     public function actionEdit(array $variables = [])
     {
         $this->injectLocaleID($variables);
@@ -40,20 +41,21 @@ class AutoLinkController extends BaseController
         $this->renderTemplate('autolink/_edit', $variables);
     }
 
-    public function actionDelete(array $variables = [])
-    {
-
-    }
-
+    /**
+     * @param array $variables
+     */
     public function actionLinks(array $variables = [])
     {
-//        $variables['locale'] = $this->locale($variables);
         $this->injectLocaleID($variables);
         $variables['attributes']['localeId'] = $variables['localeId'];
         $this->renderTemplate('autolink/index', $variables);
-
     }
 
+    /**
+     * @param $variables
+     *
+     * @throws HttpException
+     */
     protected function injectLocaleID(&$variables)
     {
         $editableLocaleIds = craft()->i18n->getEditableLocaleIds();
@@ -94,6 +96,11 @@ class AutoLinkController extends BaseController
     }
 
 
+    /**
+     * @param $request
+     *
+     * @return mixed
+     */
     protected function locale($request)
     {
         if (!empty($request['localeId'])) return $request['localeId'];

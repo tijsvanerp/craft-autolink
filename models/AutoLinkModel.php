@@ -22,9 +22,16 @@
 
 namespace Craft;
 
+/**
+ * Class AutoLinkModel
+ * @package Craft
+ */
 class AutoLinkModel extends BaseElementModel
 {
 
+    /**
+     * @var string
+     */
     protected $elementType = 'AutoLink';
 
     /**
@@ -40,6 +47,9 @@ class AutoLinkModel extends BaseElementModel
         );
     }
 
+    /**
+     * @return EntryModel|null
+     */
     public function getRedirectEntry()
     {
         if ($this->entryId) {
@@ -49,14 +59,71 @@ class AutoLinkModel extends BaseElementModel
         return null;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUrl()
     {
-        if($this->customUrl) {
+        if ($this->customUrl) {
             return $this->customUrl;
         }
-        if($link = craft()->autoLink->getAutoLinkLink($this)) {
+        if ($link = craft()->autoLink->getAutoLinkLink($this)) {
             return $link->getUrl();
         }
+
+        return false;
+    }
+
+    public function isCaseSensitive()
+    {
+        return (bool) $this->caseSensitive;
+    }
+
+    public function expandMatchToWholeWord()
+    {
+        return (bool) $this->expandMatchToWholeWord;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeyPhrase()
+    {
+        return $this->keyphrase;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNeedle()
+    {
+        return strtolower($this->getKeyPhrase());
+    }
+
+    public function openInBlankwindow()
+    {
+        return (bool) $this->blank;
+    }
+
+
+    public function getClassList()
+    {
+        return $this->class;
+    }
+    /**
+     * @return string
+     */
+    public function getExpression()
+    {
+        $expression = '/%s/';
+
+        if ($this->expandMatchToWholeWord()) {
+            $expression = '/\b(\w*%s\w*)\b/';
+        }
+        $expression = $this->isCaseSensitive() ? $expression : $expression . "i";
+
+        return sprintf($expression, $this->getKeyPhrase());
+
     }
 
     /**

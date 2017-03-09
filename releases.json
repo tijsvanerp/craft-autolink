@@ -4,7 +4,15 @@
         "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/master.zip",
         "date": "2017-03-06T12:33:48.149Z",
         "notes": [
-            "[Added] Initial release"
+            "[Added] Initial DEV release"
+        ]
+    },
+    {
+        "version": "1.0.0-dev",
+        "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
+        "date": "2017-03-09T14:10:48.149Z",
+        "notes": [
+            "First public test release"
         ]
     }
 ]

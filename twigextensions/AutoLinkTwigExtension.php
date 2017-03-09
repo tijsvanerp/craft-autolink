@@ -65,13 +65,14 @@ class AutoLinkTwigExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function parseInputAndAddLinks($text = null)
+    public function parseInputAndAddLinks($text = null, $options = [])
     {
+
         if(!$this->canBeCastToString($text)) {
             return $text;
         }
 
         $replacements = $this->autoLink->getReplacements();
-        return  $this->autoLink->parse((string) $text, $replacements);
+        return  $this->autoLink->parse((string) $text, $replacements, $options);
     }
 }

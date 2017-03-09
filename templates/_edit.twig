@@ -134,14 +134,14 @@
         instructions: 'Whether the matching key phrases should be matched case senstive. For example: Website => <strong>w</strong>ebsite'|t
     }) }}
     {{ forms.lightswitchField({
-        label: 'Match whole only'|t,
-        id: 'matchWholeWordOnly',
-        name: 'matchWholeWordOnly',
-        on: autolink.matchWholeWordOnly | default(true),
+        label: 'Expand match to word boundaries'|t,
+        id: 'expandMatchToWholeWord',
+        name: 'expandMatchToWholeWord',
+        on: autolink.expandMatchToWholeWord | default(true),
         onLabel: 'Yes'|t,
         offLabel: 'No'|t,
-        errors: autolink.getErrors('matchWholeWordOnly'),
-        instructions: 'Match whole words only or also allow partial matches. For example: web => <strong>web</strong>site'|t
+        errors: autolink.getErrors('expandMatchToWholeWord'),
+        instructions: 'Expand to whole words or also allow partial matches. For example: web => <strong>website</strong> vs web => <strong>web</strong>site'|t
     }) }}
 
     {{ forms.lightswitchField({
