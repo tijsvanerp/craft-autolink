@@ -1,36 +1,44 @@
 [
-    {
-        "version": "0.0.1-dev",
-        "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/master.zip",
-        "date": "2017-03-06T12:33:48.149Z",
-        "notes": [
-            "[Added] Initial DEV release"
-        ]
-    },
-    {
-        "version": "1.0.0-dev",
-        "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
-        "date": "2017-03-09T14:10:48.149Z",
-        "notes": [
-            "First public test release"
-        ]
-    },
-    {
-        "version": "1.0.1",
-        "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
-        "date": "2017-03-09T14:10:48.149Z",
-        "notes": [
-            "Fixed some issues with keyphrases containing UTF-8 characters and characters that needed escaping"
-        ]
-    },
-    ,
-    {
-        "version": "1.0.3",
-        "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
-        "date": "2017-03-09T14:10:48.149Z",
-        "notes": [
-            "Available on packagist",
-            "Added a license to composer.json"
-        ]
-    }
+  {
+    "version": "0.0.1-dev",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/master.zip",
+    "date": "2017-03-06T12:33:48.149Z",
+    "notes": [
+      "[Added] Initial DEV release"
+    ]
+  },
+  {
+    "version": "1.0.0-dev",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
+    "date": "2017-03-09T14:10:48.149Z",
+    "notes": [
+      "First public test release"
+    ]
+  },
+  {
+    "version": "1.0.1",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
+    "date": "2017-03-09T14:10:48.149Z",
+    "notes": [
+      "Fixed some issues with keyphrases containing UTF-8 characters and characters that needed escaping"
+    ]
+  },
+  {
+    "version": "1.0.3",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
+    "date": "2017-03-09T14:10:48.149Z",
+    "notes": [
+      "Available on packagist",
+      "Added a license to composer.json"
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
+    "date": "2017-03-09T20:14:48.149Z",
+    "notes": [
+      "[Added] The amount of handled auto links per instance of the filter/plugin can now be limited",
+      "[Improved] Changed behaviour of keyword matching to imply exact matches or expanded matches"
+    ]
+  }
 ]
