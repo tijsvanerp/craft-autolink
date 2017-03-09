@@ -115,14 +115,14 @@ class AutoLinkModel extends BaseElementModel
      */
     public function getExpression()
     {
-        $expression = '/%s/';
+        $expression = '/%s/u';
 
         if ($this->expandMatchToWholeWord()) {
             $expression = '/\b(\w*%s\w*)\b/';
         }
         $expression = $this->isCaseSensitive() ? $expression : $expression . "i";
 
-        return sprintf($expression, $this->getKeyPhrase());
+        return sprintf($expression, preg_quote($this->getKeyPhrase(), "/"));
 
     }
 

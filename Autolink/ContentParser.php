@@ -162,7 +162,7 @@ class ContentParser
         } else {
             $word = $node->splitText(strpos($node->nodeValue, $match));
         }
-        $newNode = $word->splitText(strlen($match));
+        $newNode = $word->splitText(mb_strlen($match));
 
         $link = $this->dom->createElement('a');
         $link->setAttribute('href', $autoLinkModel->getUrl());
