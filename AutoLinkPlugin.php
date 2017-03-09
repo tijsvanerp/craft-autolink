@@ -9,7 +9,7 @@
  * @link      http://theconceptstore.nl
  * @package   AutoLink
  * @since     1.0.0
- * @VERSION 1.0.4
+ * @VERSION 1.0.5
  */
 
 namespace Craft;
@@ -62,7 +62,7 @@ class AutoLinkPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.0.4';
+        return '1.0.5';
     }
 
     /**
