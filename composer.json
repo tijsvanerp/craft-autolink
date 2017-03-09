@@ -1,6 +1,7 @@
 {
     "name": "tijsvanerp/craft-autolink",
     "description": "Links keywords in your content to other entries",
+    "license" : "MIT",
     "type": "craft-plugin",
     "authors": [
         {
@@ -15,5 +16,5 @@
     "require-dev": {
         "corneltek/phprelease": "^1.3"
     },
-    "version": "1.0.2"
+    "version": "1.0.3"
 }
