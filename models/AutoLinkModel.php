@@ -115,7 +115,7 @@ class AutoLinkModel extends BaseElementModel
      */
     public function getExpression()
     {
-        $expression = '/%s/u';
+        $expression = '/\b%s\b/u';
 
         if ($this->expandMatchToWholeWord()) {
             $expression = '/\b(\w*%s\w*)\b/';

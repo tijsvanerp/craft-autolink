@@ -141,7 +141,10 @@
         onLabel: 'Yes'|t,
         offLabel: 'No'|t,
         errors: autolink.getErrors('expandMatchToWholeWord'),
-        instructions: 'Expand to whole words or also allow partial matches. For example: web => <strong>website</strong> vs web => <strong>web</strong>site'|t
+        instructions: 'Expand to whole words or also require exact matches. For example:
+        <ul><li>Off: web => website (no match)</li>
+        <li>Off: website => <strong>website</strong> (exact match)</li>
+        <li>On: web => <strong>website</strong> (expanded match)</li></ul>'|t
     }) }}
 
     {{ forms.lightswitchField({

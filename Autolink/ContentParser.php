@@ -64,6 +64,8 @@ class ContentParser
         }
 
         $nodes = $this->getXPath()->query($this->createQueryExpression($autoLinkModel->getNeedle()));
+
+        var_dump($autoLinkModel->getExpression());
         foreach ($nodes as $node) {
             /** @var \DOMText $node */
             while (preg_match_all($autoLinkModel->getExpression(), $node->nodeValue, $matches)) {
