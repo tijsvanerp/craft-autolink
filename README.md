@@ -1,6 +1,6 @@
 # Auto Link plugin for Craft CMS
 
-Links keywords in your content to other entries or urls
+Automatically links keywords/key phrases in your content to other entries or urls
 
 ## Installation
 
