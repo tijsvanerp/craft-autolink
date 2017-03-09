@@ -22,7 +22,6 @@ class AutoLinkPlugin extends BasePlugin
     public function init()
     {
         parent::init();
-
         Craft::import('plugins.autolink.Autolink.*');
     }
 
@@ -47,7 +46,7 @@ class AutoLinkPlugin extends BasePlugin
      */
     public function getDocumentationUrl()
     {
-        return '???';
+        return 'https://github.com/tijsvanerp/craft-autolink';
     }
 
     /**
@@ -55,7 +54,7 @@ class AutoLinkPlugin extends BasePlugin
      */
     public function getReleaseFeedUrl()
     {
-        return '???';
+        return 'https://raw.githubusercontent.com/tijsvanerp/craft-autolink/master/releases.json';
     }
 
     /**

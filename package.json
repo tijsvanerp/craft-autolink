@@ -11,8 +11,8 @@
     "dev": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "production": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "release:test": "phprelease --dryrun",
-    "release:prepare:dev": "phprelease --skip GitPush --skip GitPushTags --skip resources/src/amend.sh --dev",
-    "release:prepare": "phprelease --skip GitPush --skip GitPushTags --skip resources/src/amend.sh",
+    "release:prepare:dev": "phprelease --skip GitPush --skip GitPushTags --dev",
+    "release:prepare": "phprelease --skip GitPush --skip GitPushTags",
     "release:push": "phprelease --skip resources/src/compile.sh --skip BumpVersion --skip GitCommit --skip GitTag"
   }
 }
