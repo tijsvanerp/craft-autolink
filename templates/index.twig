@@ -1,0 +1,40 @@
+{% extends '_layouts/elementindex' %}
+
+{% set title = 'Autolinks'|t %}
+{% set elementType = 'AutoLink' %}
+{% set initialLocale = localeId %}
+
+{% set tabs = {
+tab1: { label: "Auto Links"|t, url: '#tab1' },
+tab2: { label: "Settings"|t, url: url('settings/plugins/autolink') } ,
+} %}
+
+
+{% block pageTitle %}
+    {{ parent() }}
+{% endblock %}
+
+{% set extraPageHeaderHtml %}
+    <div class="buttons right">
+        <div class="btngroup submit">
+            <a class="btn submit add icon" href="{{ url('autolink/new') }}">{{ 'New auto link'|t }}</a>
+        </div>
+    </div>
+{% endset %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div id="tab1">
+        {{ parent() }}
+    </div>
+{% endblock %}
+{#{% block initJs %}#}
+    {#Craft.elementIndex = Craft.createElementIndex('{{ elementTypeClass }}', $('#main'), {#}
+    {#context:        '{{ context }}',#}
+    {#storageKey:     'elementindex.{{ elementTypeClass }}',#}
+    {#criteria:       { localeEnabled: true, locale: 'nl' }#}
+    {#});#}
+{#{% endblock %}#}

@@ -1,0 +1,168 @@
+{% extends '_layouts/cp' %}
+{% import '_includes/forms' as forms %}
+{% set title = (formId is defined ? 'Edit auto link'|t : 'New auto link'|t) %}
+{% set fullPageForm = true %}
+{% set localeId = autolink.locale | default(localeId) %}
+
+{% set saveShortcutRedirect = 'autolink/edit/{id}' %}
+{% includeCssResource "autolink/css/AutoLink_Style.css" %}
+{% includeJsResource "autolink/js/AutoLink_Script.js" %}
+
+
+{% block saveButton %}
+    <div class="btngroup">
+        <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+        <div class="btn submit menubtn"></div>
+        <div class="menu">
+            <ul>
+                <li><a class="formsubmit" data-redirect="autolink/edit/{id}">
+                        {{ 'Save and continue editing'|t }}
+                        {{ forms.optionShortcutLabel('S') }}
+                    </a></li>
+                {% if autoLinkId is defined %}
+                    <li><a class="formsubmit error"
+                           data-action="autolink/delete"
+                           data-confirm="{{ "Are you sure you want to delete this form and all of it's data?"|t }}"
+                           data-redirect="autolink">{{ 'Delete'|t }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <input type="hidden" name="action" value="AutoLink/save/{{ localeId }}">
+    <input type="hidden" name="redirect" value="autolink">
+    {% if autoLinkId is defined -%}<input type="hidden" name="autoLinkId" value="{{ autoLinkId }}">{% endif %}
+
+    {{ forms.textField({
+        label: "Title"|t,
+        id: 'title',
+        name: 'title',
+        instructions: "the title of the link. This value is also used in the title attribute of the link."|t,
+        value: (autolink.title is defined ? autolink.title : ''),
+        errors: (autolink.title is defined ? autolink.getErrors('title') : null),
+        required: true,
+        first: true,
+        translatable: true,
+        autofocus: true
+    }) }}
+
+    {% if craft.isLocalized() %}
+        {% set selectableLocales  = [] %}
+        {% for locale in craft.i18n.getEditableLocales() %}
+            {% set selectableLocales = selectableLocales | merge([{
+                label: locale.name,
+                value: locale.id
+            }]) %}
+        {% endfor %}
+        {{ forms.selectField({
+            label: "Locale"|t,
+            instructions: "the locale to which the current auto link should be applied."|t,
+            id: 'localeId',
+            name: 'localeId',
+            options: selectableLocales,
+            value: localeId
+        }) }}
+    {% else %}
+        <input type="hidden" name="localeId" value="{{ localeId }}">
+    {% endif %}
+    {{ forms.textField({
+        label: "Priority"|t,
+        id: 'priority',
+        name: 'priority',
+        instructions: "the priority of the rule. Higher values get applied first."|t,
+        value: (autolink.priority is defined ? autolink.priority : 50),
+        errors: (autolink.priority is defined ? autolink.getErrors('priority') : null),
+        required: true,
+        translatable: false,
+    }) }}
+    {{ forms.textField({
+        label: "Keyphrase"|t,
+        instructions: "The string to auto link in the content."|t,
+        id: 'keyphrase',
+        name: 'keyphrase',
+        value: (autolink.keyphrase is defined ? autolink.keyphrase : null),
+        errors: (autolink.keyphrase is defined ? autolink.getErrors('keyphrase') : null),
+        required: true,
+    }) }}
+    <div id="useCustomUrl--wrapper">
+        {{ forms.lightswitchField({
+            label: 'Use custom url'|t,
+            id: 'useCustomUrl',
+            name: 'useCustomUrl',
+            on: autolink.entryId is not defined and autolink.customUrl | length,
+            onLabel: 'Yes'|t,
+            offLabel: 'No'|t,
+            errors: autolink.getErrors('useCustomUrl'),
+            instructions: 'Whether to use a custom URL or select an existing entry'|t
+        }) }}
+    </div>
+    <div id="entryId--wrapper" class="c-autolink--hidden field">
+        {{ forms.elementSelectField({
+            label: 'Entry'|t,
+            id: 'entryId',
+            name: 'entryId',
+            elementType: entryElementType,
+            elements: (autoLinkEntry is defined and autoLinkEntry) ? [autoLinkEntry] : [],
+            limit: 1,
+            viewMode: 'list',
+            addButtonLabel: 'Select a page'|t,
+            errors: autolink.getErrors('url'),
+            instructions: 'The url to inject into the content'|t
+        }) }}
+    </div>
+    <div id="customUrl--wrapper" class="c-autolink--hidden field">
+        {{ forms.textField({
+            label: "Custom URL"|t,
+            id: 'customUrl',
+            name: 'customUrl',
+            value: (autolink.customUrl is defined ? autolink.customUrl : ''),
+            errors: (autolink.customUrl is defined ? autolink.getErrors('customUrl') : null),
+            required: false,
+        }) }}
+    </div>
+    {{ forms.lightswitchField({
+        label: 'Case sensitive'|t,
+        id: 'caseSensitive',
+        name: 'caseSensitive',
+        on: autolink.caseSensitive | default(false),
+        onLabel: 'Yes'|t,
+        offLabel: 'No'|t,
+        errors: autolink.getErrors('caseSensitive'),
+        instructions: 'Whether the matching key phrases should be matched case senstive. For example: Website => <strong>w</strong>ebsite'|t
+    }) }}
+    {{ forms.lightswitchField({
+        label: 'Match whole only'|t,
+        id: 'matchWholeWordOnly',
+        name: 'matchWholeWordOnly',
+        on: autolink.matchWholeWordOnly | default(true),
+        onLabel: 'Yes'|t,
+        offLabel: 'No'|t,
+        errors: autolink.getErrors('matchWholeWordOnly'),
+        instructions: 'Match whole words only or also allow partial matches. For example: web => <strong>web</strong>site'|t
+    }) }}
+
+    {{ forms.lightswitchField({
+        label: 'Open in new window'|t,
+        id: 'blank',
+        name: 'blank',
+        on: autolink.blank is defined and autolink.blank,
+        onLabel: 'Yes'|t,
+        offLabel: 'No'|t,
+        errors: autolink.getErrors('blank'),
+        instructions: 'Open the link in a new window when clicked'|t
+    }) }}
+
+    {{ forms.textField({
+        label: "CSS classes"|t,
+        id: 'class',
+        name: 'class',
+        instructions: "CSS classes to add to the element"|t,
+        value: (autolink.class is defined ? autolink.class : ''),
+        errors: (autolink.class is defined ? autolink.getErrors('class') : null),
+        required: false,
+        translatable: false,
+    }) }}
+{% endblock %}

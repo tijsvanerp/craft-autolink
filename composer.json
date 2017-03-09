@@ -1,0 +1,17 @@
+{
+	"name": "/autolink",
+	"description": "Links keywords in your content to other entries",
+	"type": "craft-plugin",
+	"authors": [
+		{
+			"name": "Tijs van Erp",
+			"homepage": "http://theconceptstore.nl"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	},
+	"require-dev": {
+		"corneltek/phprelease": "^1.3"
+	}
+}

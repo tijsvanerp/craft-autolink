@@ -1,0 +1,18 @@
+{
+  "name": "autolink",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-mix": "^0.8.8"
+  },
+  "scripts": {
+    "webpack": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "dev": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "release:test": "phprelease --dryrun",
+    "release:prepare:dev": "phprelease --skip GitPush --skip GitPushTags --skip resources/src/amend.sh --dev",
+    "release:prepare": "phprelease --skip GitPush --skip GitPushTags --skip resources/src/amend.sh",
+    "release:push": "phprelease --skip resources/src/compile.sh --skip BumpVersion --skip GitCommit --skip GitTag"
+  }
+}
