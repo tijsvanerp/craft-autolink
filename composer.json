@@ -1,5 +1,5 @@
 {
-    "name": "/autolink",
+    "name": "tijsvanerp/autolink",
     "description": "Links keywords in your content to other entries",
     "type": "craft-plugin",
     "authors": [
@@ -15,5 +15,5 @@
     "require-dev": {
         "corneltek/phprelease": "^1.3"
     },
-    "version": "1.0.1"
+    "version": "1.0.2"
 }
