@@ -24,7 +24,7 @@ After installing Auto Link go to the Auto Link settings to set the HTML tags tha
 
 Autolink is implemented as a Twig filter and Twig function and can be applied on your content in the following way:
 ```twig
-    {{ entry.body | autolink }}
+    {{ entry.body | autoLink }}
 
     {{ autoLink(entry.body) }}
 ```
