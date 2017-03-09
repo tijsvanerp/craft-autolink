@@ -1,5 +1,5 @@
 {
-    "name": "tijsvanerp/autolink",
+    "name": "tijsvanerp/craft-autolink",
     "description": "Links keywords in your content to other entries",
     "type": "craft-plugin",
     "authors": [
