@@ -14,5 +14,13 @@
         "notes": [
             "First public test release"
         ]
+    },
+    {
+        "version": "1.0.1",
+        "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v.1.0.0-dev.zip",
+        "date": "2017-03-09T14:10:48.149Z",
+        "notes": [
+            "Fixed some issues with keyphrases containing UTF-8 characters and characters that needed escaping"
+        ]
     }
 ]

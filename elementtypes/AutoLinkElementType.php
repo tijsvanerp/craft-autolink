@@ -31,7 +31,7 @@ class AutoLinkElementType extends BaseElementType
      */
     public function getName()
     {
-        return Craft::t('AutoLink');
+        return Craft::t('Auto Link');
     }
 
     /**

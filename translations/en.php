@@ -1,15 +1,42 @@
 <?php
-/**
- * Auto Link plugin for Craft CMS
- *
- * Auto Link Translation
- *
- * @author    Tijs van Erp
- * @copyright Copyright (c) 2017 Tijs van Erp
- * @link      http://theconceptstore.nl
- * @package   AutoLink
- * @since     1.0.0
- */
 
-return array(
+return array (
+    'Auto Link' => 'Auto Link',
+    'Links keywords in your content to other entries' => 'Links keywords in your content to other entries',
+    'Auto link saved.' => 'Auto link saved.',
+    'Couldn’t save auto link.' => 'Couldn’t save auto link.',
+    'Auto links' => 'Auto links',
+    'Are you sure you want to delete the selected entries?' => 'Are you sure you want to delete the selected Auto Links?',
+    'Entries deleted.' => 'Auto Links deleted.',
+    'Title' => 'Title',
+    'Keyphrase' => 'Keyword/keyphrase',
+    'URI' => 'URI',
+    'Priority' => 'Priority',
+    'Parsed HTML tags' => 'Parsed HTML tags',
+    'Which tags should be handled by the autolink plugin?' => 'Which tags should be handled by the autolink plugin?',
+    'Edit auto link' => 'Edit auto link',
+    'Save' => 'Save',
+    'Save and continue editing' => 'Save and continue editing',
+    'Delete' => 'Delete',
+    'Use custom url' => 'Use custom url',
+    'Yes' => 'Yes',
+    'No' => 'No',
+    'Entry' => 'Entry',
+    'Select a page' => 'Select a page',
+    'Case sensitive' => 'Case sensitive',
+    'Expand match to word boundaries' => 'Expand match to word boundaries',
+    'Open in new window' => 'Open in new window',
+    'Are you sure you want to delete this form and all of it\'s data?' => 'Are you sure you want to delete this form and all of it\'s data?',
+    'the title of the link. This value is also used in the title attribute of the link.' => 'the title of the link. This value is also used in the title attribute of the link.',
+    'Locale' => 'Locale',
+    'the locale to which the current auto link should be applied.' => 'the locale to which the current auto link should be applied.',
+    'the priority of the rule. Higher values get applied first.' => 'the priority of the rule. Higher values get applied first.',
+    'The string to auto link in the content.' => 'The string to auto link in the content.',
+    'Custom URL' => 'Custom URL',
+    'CSS classes' => 'CSS classes',
+    'CSS classes to add to the element' => 'CSS classes to add to the element',
+    'Autolinks' => 'Auto Links',
+    'New auto link' => 'New auto link',
+    'Auto Links' => 'Auto Links',
+    'Settings' => 'Settings',
 );
