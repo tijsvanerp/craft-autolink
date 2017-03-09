@@ -60,7 +60,7 @@ class ContentParser
      */
     protected function replace(AutoLinkModel $autoLinkModel)
     {
-        if(!$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed()) {
+        if(!$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed() || $this->uRLisCurrentPage($autoLinkModel->getUrl())) {
             return;
         }
         $nodes = $this->getXPath()->query($this->createQueryExpression($autoLinkModel->getNeedle()));
@@ -77,6 +77,9 @@ class ContentParser
         }
     }
 
+    private function uRLisCurrentPage($url) {
+        $current = craft()->request->getHostInfo().craft()->request->getRequestUri();
+    }
 
     private function maxAutolinksHaveBeenProcessed() {
         return (!empty($this->options['limit']) && $this->options['limit'] == $this->parsedAutoLinks);
@@ -167,9 +170,9 @@ class ContentParser
     {
         /** @var \DOMNode $node */
         if ($autoLinkModel->isCaseSensitive()) {
-            $word = $node->splitText(stripos($node->nodeValue, $match));
+            $word = $node->splitText(mb_stripos($node->nodeValue, $match));
         } else {
-            $word = $node->splitText(strpos($node->nodeValue, $match));
+            $word = $node->splitText(mb_strpos($node->nodeValue, $match));
         }
         $newNode = $word->splitText(mb_strlen($match));
 
