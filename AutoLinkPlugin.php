@@ -38,7 +38,7 @@ class AutoLinkPlugin extends BasePlugin
      */
     public function getDescription()
     {
-        return Craft::t('Links keywords in your content to other entries');
+        return Craft::t('Automatically link keywords in your content to other entries or external URL\'s');
     }
 
     /**

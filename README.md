@@ -50,7 +50,7 @@ Some things to do, and ideas for potential features:
 * Auto link sections
 * Regular expresion matching and linking/replacement
 * Drag and drop reordering
-* Limit the amount of matched keywords to prevent your content from becoming a mess of links
+* ~~Limit the amount of matched keywords to prevent your content from becoming a mess of links~~ [done]
 * Prevent entries from linking to itself
 
 Brought to you by [Tijs van Erp](https://github.com/tijsvanerp)
