@@ -1,6 +1,12 @@
 # Auto Link plugin for Craft CMS
 
 Automatically links keywords/key phrases in your content to other entries or urls
+### Turn this:
+![Without links](https://raw.githubusercontent.com/tijsvanerp/craft-autolink/master/resources/screenshots/screen2.png)
+### into this:
+![With links](https://raw.githubusercontent.com/tijsvanerp/craft-autolink/master/resources/screenshots/screen3.png)
+### CP screenshot:
+![CP](https://raw.githubusercontent.com/tijsvanerp/craft-autolink/master/resources/screenshots/screen1.png)
 
 ## Installation
 
