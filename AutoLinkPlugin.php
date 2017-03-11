@@ -1,4 +1,7 @@
 <?php
+namespace Craft;
+
+use ReflectionClass;
 /**
  * Auto Link plugin for Craft CMS
  *
@@ -9,11 +12,8 @@
  * @link      http://theconceptstore.nl
  * @package   AutoLink
  * @since     1.0.0
- * @VERSION 1.1.2
+ * @VERSION 1.1.3
  */
-
-namespace Craft;
-
 class AutoLinkPlugin extends BasePlugin
 {
     /**
@@ -62,7 +62,11 @@ class AutoLinkPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.1.2';
+        $docBlock = (new ReflectionClass($this))->getDocComment();
+        if(preg_match('#@version\s+(\S+)#ism', $docBlock, $match)) {
+            return $match[1];
+        }
+        return '1.0';
     }
 
     /**
