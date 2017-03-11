@@ -1,6 +1,7 @@
 <?php
 
 namespace Craft;
+
 use DOMDocument;
 use DOMXPath;
 use Twig_Markup;
@@ -15,6 +16,11 @@ class ContentParser
      * @var DOMDocument
      */
     protected $dom;
+
+    /**
+     * @var string
+     */
+    protected $html;
 
     /** @var AutoLinkModel[] */
     protected $replacements = [];
@@ -34,12 +40,39 @@ class ContentParser
      */
     public function __construct(string $html, $replacements = [], $options = [])
     {
+
+        $this->html = (new CleanHTML($html))->clean();
+
         /** @var DOMDocument dom */
-        $this->dom = new DOMDocument;
-        $this->dom->loadXml("<root>$html</root>");
+        $this->loadDomString($this->html);
         $this->options = $options;
 
         $this->setReplacements($replacements);
+    }
+
+    /**
+     * Load the string into a DOM document
+     * @param string $html
+     */
+    protected function loadDomString(string $html)
+    {
+        $this->dom = new DOMDocument;
+        $this->dom->loadXml("<root>$html</root>");
+    }
+
+    /**
+     * export the dom coument as a string
+     * @return string
+     */
+    protected function saveDomString()
+    {
+        $doc = '';
+        $nodes = $this->getXPath()->query("/root");
+        foreach ($nodes as $node) {
+            $doc .= $this->dom->saveXML($node);
+        }
+
+        return $doc;
     }
 
     /**
@@ -49,20 +82,22 @@ class ContentParser
     public function parse()
     {
         $this->handleReplacements();
-        $doc = $this->dom->saveXML($this->dom->documentElement);
-        return TemplateHelper::getRaw($this->getContentOfRootElement($doc));
+
+        return TemplateHelper::getRaw($this->saveDomString());
     }
 
 
     /**
      * inject the links into the dom model
+     *
      * @param AutoLinkModel $autoLinkModel
      */
     protected function replace(AutoLinkModel $autoLinkModel)
     {
-        if(!$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed() || $this->uRLisCurrentPage($autoLinkModel->getUrl())) {
+        if (!$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed() || $this->uRLisCurrentPage($autoLinkModel->getUrl())) {
             return;
         }
+
         $nodes = $this->getXPath()->query($this->createQueryExpression($autoLinkModel->getNeedle()));
         $hasMatch = false;
         foreach ($nodes as $node) {
@@ -72,38 +107,48 @@ class ContentParser
                 $node = $this->injectAutoLinksIntoDom($autoLinkModel, $matches[0][0], $node);
             }
         }
-        if($hasMatch) {
+        if ($hasMatch) {
             $this->parsedAutoLinks++;
         }
+
+        $this->loadDomString((string)$this->saveDomString());
+
     }
 
-    private function uRLisCurrentPage($url) {
-        $current = craft()->request->getHostInfo().craft()->request->getRequestUri();
+    private function uRLisCurrentPage($url)
+    {
+        $current = craft()->request->getHostInfo() . craft()->request->getRequestUri();
     }
 
-    private function maxAutolinksHaveBeenProcessed() {
+    private function maxAutolinksHaveBeenProcessed()
+    {
         return (!empty($this->options['limit']) && $this->options['limit'] == $this->parsedAutoLinks);
     }
+
     /**
      * Generate the query expression for querying the dom.
      * The in the settings excluded tags are ignored here
+     *
      * @param string $needle
      *
      * @return string
      */
-    protected function createQueryExpression($needle) {
+    protected function createQueryExpression($needle)
+    {
 
         $allowedTags = craft()->autoLink->allowedTags();
 
-        $include = array_map(function($tag) {
+        $include = array_map(function ($tag) {
             return "ancestor::$tag";
-        },$allowedTags);
+        }, $allowedTags);
 
-       return  "//text()[contains(php:functionString('strtolower', .), '$needle')][".implode(" or ", $include) . "]";
+        return "//text()[contains(php:functionString('strtolower', .), '$needle')][not(ancestor::a) and (" . implode(" or ",
+                $include) . ")]";
     }
 
     /**
      * strip the root element from the output string. This element is required to make the HTML DomDocument compatible.
+     *
      * @param string $doc
      *
      * @return mixed
@@ -111,7 +156,8 @@ class ContentParser
     protected function getContentOfRootElement($doc)
     {
         preg_match('#<(root)>(.+?)</\1>#is', $doc, $matches);
-        return $matches[0];
+
+        return $matches[2];
     }
 
     /**
@@ -141,6 +187,7 @@ class ContentParser
 
     /**
      * Assign the replacements
+     *
      * @param ElementCriteriaModel $replacements
      */
     public function setReplacements(ElementCriteriaModel $replacements)
@@ -192,6 +239,7 @@ class ContentParser
 
         $word->parentNode->replaceChild($link, $word);
         $link->appendChild($word);
+
         return $newNode;
     }
 }
