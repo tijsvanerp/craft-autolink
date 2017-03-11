@@ -11,7 +11,8 @@
     ],
     "require": {
         "composer/installers": "~1.0",
-        "php": "^7.0"
+        "php": "^7.0",
+        "ezyang/htmlpurifier": "^4.9"
     },
     "require-dev": {
         "corneltek/phprelease": "^1.3"
