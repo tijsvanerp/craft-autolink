@@ -12,7 +12,7 @@ use ReflectionClass;
  * @link      http://theconceptstore.nl
  * @package   AutoLink
  * @since     1.0.0
- * @VERSION 1.1.3
+ * @VERSION 1.1.4
  */
 class AutoLinkPlugin extends BasePlugin
 {
