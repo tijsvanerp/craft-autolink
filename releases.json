@@ -72,5 +72,13 @@
     "notes": [
       "[Improvement] implemented a check if a keyphrase is present in the DOM. This is to prevent the plugin to run the expensive DOM Xpath queries if it's not needed at all."
     ]
+  },
+  {
+    "version": "1.1.5",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v1.1.4.zip",
+    "date": "2017-03-16T11:04:48.149Z",
+    "notes": [
+      "[Fixed] Fixed a bug where composer autoload wasn't handled properly when the plugin is manually installed"
+    ]
   }
 ]
