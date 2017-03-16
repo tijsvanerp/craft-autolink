@@ -64,5 +64,13 @@
     "notes": [
       "[Fixed] fixed a version mismacth for craft"
     ]
+  },
+  {
+    "version": "1.1.4",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v1.1.4.zip",
+    "date": "2017-03-16T10:54:48.149Z",
+    "notes": [
+      "[Improvement] implemented a check if a keyphrase is present in the DOM. This is to prevent the plugin to run the expensive DOM Xpath queries if it's not needed at all."
+    ]
   }
 ]

@@ -29,6 +29,9 @@ class ContentParser
      */
     private $options;
 
+    /**
+     * @var int
+     */
     protected $parsedAutoLinks = 0;
 
     /**
@@ -94,7 +97,7 @@ class ContentParser
      */
     protected function replace(AutoLinkModel $autoLinkModel)
     {
-        if (!$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed() || $this->uRLisCurrentPage($autoLinkModel->getUrl())) {
+        if ($this->skipProcessing($autoLinkModel)) {
             return;
         }
 
@@ -115,11 +118,17 @@ class ContentParser
 
     }
 
+    /**
+     * @param $url
+     */
     private function uRLisCurrentPage($url)
     {
         $current = craft()->request->getHostInfo() . craft()->request->getRequestUri();
     }
 
+    /**
+     * @return bool
+     */
     private function maxAutolinksHaveBeenProcessed()
     {
         return (!empty($this->options['limit']) && $this->options['limit'] == $this->parsedAutoLinks);
@@ -241,5 +250,24 @@ class ContentParser
         $link->appendChild($word);
 
         return $newNode;
+    }
+
+    /**
+     * @param AutoLinkModel $autoLinkModel
+     *
+     * @return bool
+     */
+    private function skipProcessing(AutoLinkModel $autoLinkModel)
+    {
+        return !$autoLinkModel->getUrl() || $this->maxAutolinksHaveBeenProcessed() || $this->uRLisCurrentPage($autoLinkModel->getUrl()) || !$this->htmlContainsKeyPhrase($autoLinkModel->getKeyPhrase());
+    }
+
+    /**
+     * @param $keyphrase
+     *
+     * @return bool
+     */
+    private function htmlContainsKeyPhrase($keyphrase) {
+        return mb_stripos($this->html, $keyphrase) !== false;
     }
 }
