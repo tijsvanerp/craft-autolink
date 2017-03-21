@@ -57,6 +57,6 @@ Some things to do, and ideas for potential features:
 * Regular expresion matching and linking/replacement
 * Drag and drop reordering
 * ~~Limit the amount of matched keywords to prevent your content from becoming a mess of links~~ [done]
-* Prevent entries from linking to itself
+* ~~Prevent entries from linking to itself~~ [done]
 
 Brought to you by [Tijs van Erp](https://github.com/tijsvanerp)
