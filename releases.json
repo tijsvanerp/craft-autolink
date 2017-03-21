@@ -70,7 +70,7 @@
     "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v1.1.4.zip",
     "date": "2017-03-16T10:54:48.149Z",
     "notes": [
-      "[Improvement] implemented a check if a keyphrase is present in the DOM. This is to prevent the plugin to run the expensive DOM Xpath queries if it's not needed at all."
+      "[Improved] implemented a check if a keyphrase is present in the DOM. This is to prevent the plugin to run the expensive DOM Xpath queries if it's not needed at all."
     ]
   },
   {
@@ -79,6 +79,14 @@
     "date": "2017-03-16T11:04:48.149Z",
     "notes": [
       "[Fixed] Fixed a bug where composer autoload wasn't handled properly when the plugin is manually installed"
+    ]
+  },
+  {
+    "version": "1.1.6",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v1.1.6.zip",
+    "date": "2017-03-21T14:01:48.149Z",
+    "notes": [
+      "[Improved] Pages won't link to themselves anymore"
     ]
   }
 ]
