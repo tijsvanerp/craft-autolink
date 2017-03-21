@@ -88,5 +88,13 @@
     "notes": [
       "[Improved] Pages won't link to themselves anymore"
     ]
+  },
+  {
+    "version": "1.1.7",
+    "downloadUrl": "https://github.com/tijsvanerp/craft-autolink/archive/v1.1.7.zip",
+    "date": "2017-03-21T14:16:48.149Z",
+    "notes": [
+      "[Fixed] Fixed a bug where the plugin would fail when composer wasn't initialised"
+    ]
   }
 ]

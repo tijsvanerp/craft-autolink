@@ -21,7 +21,7 @@ class AutoLinkPlugin extends BasePlugin
      */
     public function init()
     {
-        require_once __DIR__ . '/vendor/autoload.php';
+        $this->autoLoad();
 
         parent::init();
         Craft::import('plugins.autolink.Autolink.*');
@@ -188,5 +188,13 @@ class AutoLinkPlugin extends BasePlugin
         // Modify $settings here...
 
         return $settings;
+    }
+
+    private function autoLoad()
+    {
+        $autoloadFile = __DIR__ . '/vendor/autoload.php';
+        if (file_exists($autoloadFile)) {
+            require_once $autoloadFile;
+        }
     }
 }
