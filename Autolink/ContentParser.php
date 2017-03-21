@@ -64,7 +64,7 @@ class ContentParser
     }
 
     /**
-     * export the dom coument as a string
+     * export the dom document as a string
      * @return string
      */
     protected function saveDomString()
@@ -120,10 +120,13 @@ class ContentParser
 
     /**
      * @param $url
+     *
+     * @return bool
      */
     private function uRLisCurrentPage($url)
     {
         $current = craft()->request->getHostInfo() . craft()->request->getRequestUri();
+        return $current == $url;
     }
 
     /**
